@@ -5,9 +5,7 @@ let addToBButton = document.getElementById('option-b-add');
 let undoBButton = document.getElementById('option-b-undo');
 let closePollButton = document.getElementById('close-poll');
 let inputForm = document.querySelector('form');
-let pollInput = document.getElementById('poll-title-input');
-let optionAInput = document.getElementById('input-option-a');
-let optionBInput = document.getElementById('input-option-b');
+let errorDiv = document.getElementById('err-display');
 let currentPollTitle = document.getElementById('current-question');
 let currentATitleDiv = document.getElementById('option-a-title');
 let currentAVotes = document.getElementById('option-a-votes');
@@ -50,7 +48,16 @@ inputForm.addEventListener('submit', (e) => {
     currentQuestion = data.get('poll-title-input');
     currentATitle = data.get('input-option-a');
     currentBTitle = data.get('input-option-b');
-    displayCurrentPoll();
+    //check if we have all input forms filled before trying to display them. starts looking weird otherwise
+    if (data.get('input-option-a') === '' || data.get('input-option-b') === '' || data.get('poll-title-input') === null) {
+        errorDiv.textContent = 'Please input both option names and a poll title.';
+        errorDiv.classList.remove('hidden');
+    } else {
+        displayCurrentPoll();
+        if (!(errorDiv.classList.contains('hidden'))) {
+            errorDiv.classList.add('hidden');
+        }
+    }
 });
 
 closePollButton.addEventListener('click', () => {
@@ -70,21 +77,26 @@ closePollButton.addEventListener('click', () => {
 });
 
 function resetCurrentPoll() {
+    currentPollDiv.classList.remove('poll');
     currentPollTitle.textContent = '';
     currentATitleDiv.textContent = '';
+    currentATitle = '';
     currentAVotes.textContent = '';
+    aVotes = 0;
     currentBTitleDiv.textContent = '';
+    currentBTitle = '';
     currentBVotes.textContent = '';
+    bVotes = 0;
 }
 
 function displayCurrentPoll() {
   //display state of current poll to current poll div
+    currentPollDiv.classList.add('poll');
     currentPollTitle.textContent = currentQuestion;
     currentATitleDiv.textContent = currentATitle;
     currentAVotes.textContent = currentBTitle;
     currentBTitleDiv.textContent = aVotes;
     currentBVotes.textContent = bVotes;
-    
 }
 
 function displayAllPolls() {
@@ -100,6 +112,7 @@ function renderPoll(poll) {
     let titleDiv = document.createElement('div');
     titleDiv.textContent = poll.question;
     pollDiv.appendChild(titleDiv);
+    pollDiv.classList.add('poll');
     let aDiv = document.createElement('div');
     let bDiv = document.createElement('div');
     let aTitle = document.createElement('div');
@@ -116,7 +129,6 @@ function renderPoll(poll) {
     bDiv.appendChild(bVotes);
     pollDiv.appendChild(aDiv);
     pollDiv.appendChild(bDiv);
-    //console.log(pollDiv);
     return pollDiv;
     //one node for the title of the poll
     //two nodes, one for a and b

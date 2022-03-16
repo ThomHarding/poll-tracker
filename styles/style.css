@@ -98,3 +98,12 @@ button {
     margin-bottom: 5px;
     justify-content: center;
 }
+
+.poll {
+    border: solid black 1px;
+    margin: 1px;
+}
+
+.hidden {
+    display: none;
+}

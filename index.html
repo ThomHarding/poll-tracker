@@ -21,10 +21,7 @@
     <main>
         <section class="main-section">
             <img class="main-logo" src="./assets/alchemy-logo.png" />
-            <h2>
-                Poll Tracker From Scratch
-            </h2>
-
+            <h2>Poll Tracker From Scratch</h2>
             <form id="poll-input-options">
                 <label>
                     Question
@@ -52,9 +49,10 @@
                         <button id="option-b-undo"> Undo option B</button>
                     </div>
                 </div>
-                <button id="close-poll">Close poll</button>
+                <button id="close-poll">Close Poll</button>
             </div>
-            <h3> current poll:</h3>
+            <div class="hidden" id="err-display"></div>
+            <h3>Current Poll:</h3>
             <div id="current-poll">
                 <div id="current-question"></div>
                 <div id="option-a">
@@ -66,10 +64,9 @@
                     <p id="option-b-votes"></p>
                 </div>
             </div>
-            <h3> past polls:</h3>
+            <h3>Past Polls:</h3>
             <div id="past-polls">
             </div>
-
         </section>
     </main>
     <footer>
