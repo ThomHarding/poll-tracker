@@ -47,7 +47,7 @@ undoBButton.addEventListener('click', () => {
 inputForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let data = new FormData(inputForm);
-    currentQuestion = data.get('poll=title-input');
+    currentQuestion = data.get('poll-title-input');
     currentATitle = data.get('input-option-a');
     currentBTitle = data.get('input-option-b');
     displayCurrentPoll();
@@ -63,14 +63,28 @@ closePollButton.addEventListener('click', () => {
         optionBVotes: bVotes,
     };
     //render current poll, push to pastpolls
-    pastPolls.push(renderPoll(pollObject));
+    pastPolls.push(pollObject);
     inputForm.reset();
     displayAllPolls();
-    currentPollDiv.innerHTML = '';
+    resetCurrentPoll();
 });
+
+function resetCurrentPoll() {
+    currentPollTitle.textContent = '';
+    currentATitleDiv.textContent = '';
+    currentAVotes.textContent = '';
+    currentBTitleDiv.textContent = '';
+    currentBVotes.textContent = '';
+}
 
 function displayCurrentPoll() {
   //display state of current poll to current poll div
+    currentPollTitle.textContent = currentQuestion;
+    currentATitleDiv.textContent = currentATitle;
+    currentAVotes.textContent = currentBTitle;
+    currentBTitleDiv.textContent = aVotes;
+    currentBVotes.textContent = bVotes;
+    
 }
 
 function displayAllPolls() {
@@ -82,8 +96,28 @@ function displayAllPolls() {
 }
 
 function renderPoll(poll) {
-    return Node;
-    //return dom node containing poll information to be displayed
+    let pollDiv = document.createElement('div');
+    let titleDiv = document.createElement('div');
+    titleDiv.textContent = poll.question;
+    pollDiv.appendChild(titleDiv);
+    let aDiv = document.createElement('div');
+    let bDiv = document.createElement('div');
+    let aTitle = document.createElement('div');
+    aTitle.textContent = poll.optionATitle;
+    let aVotes = document.createElement('div');
+    aVotes.textContent = poll.optionAVotes;
+    let bTitle = document.createElement('div');
+    bTitle.textContent = poll.optionBTitle;
+    let bVotes = document.createElement('div');
+    bVotes.textContent = poll.optionBVotes;
+    aDiv.appendChild(aTitle);
+    aDiv.appendChild(aVotes);
+    bDiv.appendChild(bTitle);
+    bDiv.appendChild(bVotes);
+    pollDiv.appendChild(aDiv);
+    pollDiv.appendChild(bDiv);
+    //console.log(pollDiv);
+    return pollDiv;
     //one node for the title of the poll
     //two nodes, one for a and b
       //each has children of a title and a number of votes in its own node
